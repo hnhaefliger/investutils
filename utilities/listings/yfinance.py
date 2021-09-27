@@ -2,6 +2,16 @@ import requests
 import warnings
 import random
 
+def try_to_get(dict, *args):
+    try:
+        for arg in args:
+            dict = dict[arg]
+
+        return dict
+
+    except:
+        return None
+
 def get_ticker(ticker):
     headers = {
         'User-Agent': ''.join(random.sample('abcdefghijklmnopqrstuvwxyz', 10))
@@ -31,10 +41,10 @@ def get_quote(ticker):
     data = response.json()['quoteResponse']['result'][0]
 
     return {
-        '10_day_average_volume': data['averageDailyVolume10Day'],
-        '3_month_average_volume': data['averageDailyVolume3Month'],
-        'currency': data['currency'],
-        'name': data['displayName'],
+        '10_day_average_volume': try_to_get(data, 'averageDailyVolume10Day'),
+        '3_month_average_volume': try_to_get(data, 'averageDailyVolume3Month'),
+        'currency': try_to_get(data, 'currency'),
+        'name': try_to_get(data, 'displayName'),
 
     }
 
@@ -73,43 +83,43 @@ def get_insights(ticker):
     return {
         'insights': {
             'company': {
-                'dividends': data['companySnapshot']['company']['dividends'],
-                'earnings_reports': data['companySnapshot']['company']['earningsReports'],
-                'hiring': data['companySnapshot']['company']['hiring'],
-                'inovativeness': data['companySnapshot']['company']['innovativeness'],
-                'insider_sentiments': data['companySnapshot']['company']['insiderSentiments'],
-                'sustainability': data['companySnapshot']['company']['sustainability'],
+                'dividends': try_to_get(data, 'companySnapshot', 'company', 'dividends'),
+                'earnings_reports': try_to_get(data, 'companySnapshot', 'company', 'earningsReports'),
+                'hiring': try_to_get(data, 'companySnapshot', 'company', 'hiring'),
+                'inovativeness': try_to_get(data, 'companySnapshot', 'company', 'innovativeness'),
+                'insider_sentiments': try_to_get(data, 'companySnapshot', 'company', 'insiderSentiments'),
+                'sustainability': try_to_get(data, 'companySnapshot', 'company', 'sustainability'),
             },
             'sector': {
-                'dividends': data['companySnapshot']['sector']['dividends'],
-                'earnings_reports': data['companySnapshot']['sector']['earningsReports'],
-                'hiring': data['companySnapshot']['sector']['hiring'],
-                'inovativeness': data['companySnapshot']['sector']['innovativeness'],
-                'insider_sentiments': data['companySnapshot']['sector']['insiderSentiments'],
-                'sustainability': data['companySnapshot']['sector']['sustainability'],
-                'name': data['companySnapshot']['sectorInfo']
+                'dividends': try_to_get(data, 'companySnapshot', 'sector', 'dividends'),
+                'earnings_reports': try_to_get(data, 'companySnapshot', 'sector', 'earningsReports'),
+                'hiring': try_to_get(data, 'companySnapshot', 'sector', 'hiring'),
+                'inovativeness': try_to_get(data, 'companySnapshot', 'sector', 'innovativeness'),
+                'insider_sentiments': try_to_get(data, 'companySnapshot', 'sector', 'insiderSentiments'),
+                'sustainability': try_to_get(data, 'companySnapshot', 'sector', 'sustainability'),
+                'name': try_to_get(data, 'companySnapshot', 'sectorInfo')
             },
             'info': {
-                'provider': data['instrumentInfo']['keyTechnicals']['provider'],
-                'resistance': data['instrumentInfo']['keyTechnicals']['resistance'],
-                'stopLoss': data['instrumentInfo']['keyTechnicals']['stopLoss'],
-                'support': data['instrumentInfo']['keyTechnicals']['support'],
+                'provider': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'provider'),
+                'resistance': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'resistance'),
+                'stopLoss': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'stopLoss'),
+                'support': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'support'),
             },
             'recommendation': {
-                'provider': data['instrumentInfo']['recommendation']['provider'],
-                'rating': data['instrumentInfo']['recommendation']['rating'],
-                'target_price': data['instrumentInfo']['recommendation']['targetPrice'],
+                'provider': try_to_get(data, 'instrumentInfo', 'recommendation', 'provider'),
+                'rating': try_to_get(data, 'instrumentInfo', 'recommendation', 'rating'),
+                'target_price': try_to_get(data, 'instrumentInfo', 'recommendation', 'targetPrice'),
             },
             'technical_events': {
-                'provider': data['instrumentInfo']['technicalEvents']['provider'],
-                'short_term': data['instrumentInfo']['technicalEvents']['shortTerm'],
-                'mid_term': data['instrumentInfo']['technicalEvents']['midTerm'],
-                'long_term': data['instrumentInfo']['technicalEvents']['longTerm'],
+                'provider': try_to_get(data, 'instrumentInfo', 'technicalEvents', 'provider'),
+                'short_term': try_to_get(data, 'instrumentInfo', 'technicalEvents', 'shortTerm'),
+                'mid_term': try_to_get(data, 'instrumentInfo', 'technicalEvents', 'midTerm'),
+                'long_term': try_to_get(data, 'instrumentInfo', 'technicalEvents', 'longTerm'),
             },
             'valuation': {
-                'description': data['instrumentInfo']['valuation']['description'],
-                'discount': data['instrumentInfo']['valuation']['discount'],
-                'provider': data['instrumentInfo']['valuation']['provider'],
+                'description': try_to_get(data, 'instrumentInfo', 'valuation', 'description'),
+                'discount': try_to_get(data, 'instrumentInfo', 'valuation', 'discount'),
+                'provider': try_to_get(data, 'instrumentInfo', 'valuation', 'provider'),
             },
         }
     }
