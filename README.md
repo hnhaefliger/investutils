@@ -6,7 +6,7 @@ An API designed to provide a unified interface for future personal investment ap
 
 ### Ticker info
 
-To retrieve info about a specific ticker:
+To retrieve info about a specific ticker (will return additional insights from sources such as yahoo finance) (in progress):
 
 ```
 GET http://investmentutilities.herokuapp.com/api/listings/ticker/{ticker}
