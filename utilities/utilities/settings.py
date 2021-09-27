@@ -29,7 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-
+    'https://investmentutilities.herokuapp.com/'
 ]
 
 
