@@ -55,12 +55,14 @@ class TickerViewSet(viewsets.ViewSet):
         
         try:
             data = Ticker.objects.get(ticker=kwargs['ticker'].upper())
-
-            return Response(data={
+            data = {
                 'ticker': data.ticker,
                 'ticker_type': data.ticker_type,
                 'on_robinhood': data.on_robinhood,
-            }, status=status.HTTP_200_OK)
+            }
+            data.update(get_ticker_data(data['ticker']))
+
+            return Response(data=data, status=status.HTTP_200_OK)
 
         except:
             return Response(data={
