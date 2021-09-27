@@ -21,7 +21,7 @@ GET params:
 ticker_type: [equity, etf, etc.]
 offset: [0-infinity]
 limit: [0-infinity]
-on_robinhood: [true/false] (only applies to equities at the moment)
+on_robinhood: [true/false]
 ```
 
 If you think that a ticker is missing but should be added to the list:
