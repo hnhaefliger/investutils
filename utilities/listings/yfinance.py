@@ -121,5 +121,3 @@ def get_yfinance_data(ticker):
     data.update(get_quote_summary(ticker))
 
     return data
-
-print(get_yfinance_data('aapl'))
