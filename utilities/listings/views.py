@@ -6,6 +6,7 @@ from rest_framework.permissions import AllowAny
 
 from .models import Ticker
 from .serializers import TickerSerializer
+from .data import get_ticker_data
 
 
 class TickerViewSet(viewsets.ViewSet):
@@ -81,12 +82,14 @@ class TickerViewSet(viewsets.ViewSet):
 
             if serializer.is_valid(raise_exception=False):
                 data = serializer.save()
-
-                return Response(data={
+                data = {
                     'ticker': data.ticker,
                     'ticker_type': data.ticker_type,
                     'on_robinhood': data.on_robinhood,
-                }, status=status.HTTP_200_OK)
+                }
+                data.update(get_ticker_data(data['ticker']))
+
+                return Response(data=data, status=status.HTTP_200_OK)
 
             else:
                 return Response(data={
