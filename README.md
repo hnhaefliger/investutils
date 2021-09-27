@@ -15,7 +15,7 @@ GET http://investmentutilities.herokuapp.com/api/listings/ticker/{ticker}
 To retrieve a list based on filters:
 
 ```
-GET http://investmentutilities.herokuapp.com/api/listings/ticker?
+GET http://investmentutilities.herokuapp.com/api/listings/ticker?{params}
 
 GET params:
 ticker_type: [equity, etf, etc.]

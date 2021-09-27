@@ -15,8 +15,4 @@ def stock_on_robinhood(stock):
     return response.status_code == 200
 
 def on_robinhood(ticker, ticker_type):
-    if ticker_type == 'EQUITY':
-        return stock_on_robinhood(ticker)
-
-    else:
-        return False
+    return stock_on_robinhood(ticker)
