@@ -6,7 +6,7 @@ from rest_framework.permissions import AllowAny
 
 from .models import Ticker
 from .serializers import TickerSerializer
-from .data import get_ticker_data
+from .data import get_ticker_data, get_ticker_chart
 
 
 class TickerViewSet(viewsets.ViewSet):
@@ -73,7 +73,7 @@ class TickerViewSet(viewsets.ViewSet):
         Request to add a ticker.
         '''
         try:
-            Ticker.objects.get(ticker=request.data['ticker'])
+            Ticker.objects.get(ticker=request.data['ticker'].upper())
 
             return Response(data={
                 'error': 'ticker is already in database',
@@ -97,3 +97,34 @@ class TickerViewSet(viewsets.ViewSet):
                 return Response(data={
                     'error': 'invalid data',
                 }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ChartViewSet(viewsets.ViewSet):
+    '''
+    Viewset for getting a ticker chart
+    '''
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def retrieve(self, request, *args, **kwargs):
+        '''
+        Get ticker chart.
+        '''
+        if not('range' in request.GET):
+            return Response(data={'error': 'missing range parameter'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        if not('interval' in request.GET):
+            return Response(data={'error': 'missing interval parameter'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            Ticker.objects.get(ticker=kwargs['ticker'].upper())
+
+        except:
+            return Response(data={
+            }, status=status.HTTP_404_NOT_FOUND)
+
+        data = get_ticker_chart(kwargs['ticker'], request.GET['range'], request.GET['interval'])
+
+        return Response(data=data, status=status.HTTP_200_OK)
