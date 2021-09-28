@@ -82,7 +82,7 @@ class TickerViewSet(viewsets.ViewSet):
         except:
             serializer = TickerSerializer(data=request.data)
 
-            if serializer.is_valid(raise_exception=False):
+            if serializer.is_valid():
                 data = serializer.save()
                 data = {
                     'ticker': data.ticker,

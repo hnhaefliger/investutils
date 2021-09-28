@@ -18,7 +18,7 @@ def get_ticker(ticker):
     }
 
     with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
+        warnings.simplefilter('ignore')
         response = requests.get(
             f'https://query1.finance.yahoo.com/v6/finance/quote?symbols={ticker}',
             headers=headers, verify=False
@@ -45,7 +45,28 @@ def get_quote(ticker):
         '3_month_average_volume': try_to_get(data, 'averageDailyVolume3Month'),
         'currency': try_to_get(data, 'currency'),
         'name': try_to_get(data, 'displayName'),
-
+        'dividend_data': try_to_get(data, 'dividendDate'),
+        'earnings_date': try_to_get(data, 'earningsTimestamp'),
+        'current_eps': try_to_get(data, 'epsCurrentYear'),
+        'forward_eps': try_to_get(data, 'epsForward'),
+        '12_month_eps': try_to_get(data, 'epsTrailingTwelveMonths'),
+        'esg_populated': try_to_get(data, 'esgPopulated'),
+        'exchange': try_to_get(data, 'fullExchangeName'),
+        'bid': try_to_get(data, 'bid'),
+        'ask': try_to_get(data, 'ask'),
+        '50_day_average': try_to_get(data, 'fiftyDayAverage'),
+        '52_week_high': try_to_get(data, 'fiftyTwoWeekHigh'),
+        '52_week_low': try_to_get(data, 'fiftyTwoWeekLow'),
+        'forward_pe': try_to_get(data, 'forwardPE'),
+        'market': try_to_get(data, 'market'),
+        'market_cap': try_to_get(data, 'marketCap'),
+        'market_state': try_to_get(data, 'marketState'),
+        'price_eps_current_year': try_to_get(data, 'priceEpsCurrentYear'),
+        'shares_outstanding': try_to_get(data, 'sharesOutstanding'),
+        'trailing_annual_dividend_rate': try_to_get(data, 'trailingAnnualDividendRate'),
+        'trailing_annual_dividend_yield': try_to_get(data, 'trailingAnnualDividendYield'),
+        'trailing_pe': try_to_get(data, 'trailingPE'),
+        '200_day_average': try_to_get(data, 'twoHundredDayAverage'),
     }
 
 def get_quote_summary(ticker):
@@ -54,7 +75,7 @@ def get_quote_summary(ticker):
     }
 
     with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
+        warnings.simplefilter('ignore')
         response = requests.get(
             f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=summaryDetail,assetProfile,financialData,defaultKeyStatistics,calendarEvents,incomeStatementHistory,incomeStatementHistoryQuarterly,cashflowStatementHistory,balanceSheetHistory,earnings,earningsHistory,insiderHolders,cashflowStatementHistory,cashflowStatementHistoryQuarterly,insiderTransactions,secFilings,indexTrend,earningsTrend,netSharePurchaseActivity,upgradeDowngradeHistory,institutionOwnership,recommendationTrend,balanceSheetHistory,balanceSheetHistoryQuarterly,fundOwnership,majorDirectHolders,majorHoldersBreakdown,,price,,quoteType,,esgScores',
             headers=headers, verify=False
@@ -72,7 +93,7 @@ def get_insights(ticker):
     }
 
     with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
+        warnings.simplefilter('ignore')
         response = requests.get(
             f'https://query1.finance.yahoo.com/ws/insights/v1/finance/insights?symbol={ticker}',
             headers=headers, verify=False
