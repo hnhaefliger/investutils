@@ -17,7 +17,7 @@ To retrieve a list based on filters:
 ```
 GET http://investmentutilities.herokuapp.com/api/listings/ticker?{params}
 
-GET params:
+GET params (optional):
 ticker_type: [equity, etf, etc.]
 offset: [0-infinity]
 limit: [0-infinity]
@@ -32,3 +32,14 @@ POST GET http://investmentutilities.herokuapp.com/api/listings/ticker/
 POST params:
 ticker: {symbol}
 ```
+
+If you think that a ticker is missing but should be added to the list:
+
+```
+POST GET http://investmentutilities.herokuapp.com/api/listings/chart/{ticker}?{params}
+
+GET params:
+range: [1d, 1w, 1m, 1y, max, etc.] (required)
+interval: [1d, 1m, 1h, etc.] (required)
+```
+
