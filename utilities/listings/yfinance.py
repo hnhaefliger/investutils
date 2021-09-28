@@ -24,7 +24,7 @@ def get_ticker(ticker):
             headers=headers, verify=False
         )
 
-    return response.json()['finance']
+    return response.json()
 
 def get_quote(ticker):
     headers = {
