@@ -1,4 +1,4 @@
-# Investment Utilities
+# investutils
 
 An API designed to provide a unified interface for future personal investment applications by gathering updated info from exchanges, data apis and other websites.
 
