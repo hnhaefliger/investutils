@@ -27,16 +27,16 @@ on_robinhood: [true/false]
 If you think that a ticker is missing but should be added to the list:
 
 ```
-POST GET http://investmentutilities.herokuapp.com/api/listings/ticker/
+POST http://investmentutilities.herokuapp.com/api/listings/ticker/
 
 POST params:
 ticker: {symbol}
 ```
 
-If you think that a ticker is missing but should be added to the list:
+To get the chart data for a ticker.
 
 ```
-POST GET http://investmentutilities.herokuapp.com/api/listings/chart/{ticker}?{params}
+GET http://investmentutilities.herokuapp.com/api/listings/chart/{ticker}?{params}
 
 GET params:
 range: [1d, 1w, 1m, 1y, max, etc.] (required)
