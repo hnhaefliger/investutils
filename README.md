@@ -1,6 +1,6 @@
 # investutils
 
-An API designed to provide a unified interface for future personal investment applications by gathering updated info from exchanges, data apis and other websites. In the future it will be combined with [media analysis]().
+An API designed to provide a unified interface for future personal investment applications by gathering updated info from exchanges, data apis and other websites. In the future it will be combined with [media analysis](https://github.com/hnhaefliger/MediaAnalysis).
 
 ## Current utilities
 
