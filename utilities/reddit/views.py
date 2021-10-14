@@ -17,11 +17,11 @@ class RedditViewSet(viewsets.ViewSet):
     def retrieve(self, request, *args, **kwargs):
         after, last = '', 24*60*60
 
-        if 'after' in request['GET']:
-            after = request['GET']['after']
+        if 'after' in request.GET:
+            after = request.GET['after']
 
-        if 'last' in request['GET']:
-            last = request['GET']['last']
+        if 'last' in request.GET:
+            last = request.GET['last']
 
         posts, comments = scrape_reddit(kwargs['subredddit'], after=after, last=last)
 
