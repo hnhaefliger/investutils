@@ -3,6 +3,6 @@ from .views import RedditViewSet
 
 router = routers.DefaultRouter()
 
-router.register('', RedditViewSet, basename='reddit')
+router.register('posts', RedditViewSet, basename='posts')
 
 urlpatterns = router.urls

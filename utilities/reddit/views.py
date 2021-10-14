@@ -23,7 +23,7 @@ class RedditViewSet(viewsets.ViewSet):
         if 'last' in request.GET:
             last = request.GET['last']
 
-        posts, comments = scrape_reddit(kwargs['subredddit'], after=after, last=last)
+        posts, comments = scrape_reddit(kwargs['subreddit'], after=after, last=last)
 
         for post in comments:
             posts += post
