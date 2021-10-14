@@ -5,9 +5,10 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 from .reddit import scrape_reddit
+from .yfinance import get_trending, get_related
 
 
-class RedditViewSet(viewsets.ViewSet):
+class RedditPostsViewSet(viewsets.ViewSet):
     permission_classes = (AllowAny,)
     lookup_url_kwarg = 'subreddit'
 
@@ -30,3 +31,23 @@ class RedditViewSet(viewsets.ViewSet):
 
         return Response(data=posts, status=status.HTTP_200_OK)
 
+
+class YFinanceTrendingViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def get(self, request, *args, **kwargs):
+        n = 5
+
+        if 'count' in self.GET:
+            n = self.GET['count']
+
+        return Response(data=get_trending(n), status=status.HTTP_200_OK)
+
+    def retrieve(self, request, *args, **kwargs):
+        n = 5
+
+        if 'count' in self.GET:
+            n = self.GET['count']
+
+        return Response(data=get_related(n, kwargs['ticker']), status=status.HTTP_200_OK)

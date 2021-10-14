@@ -8,6 +8,6 @@ def empty(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/listings/', include('listings.urls')),
-    path('api/reddit/', include('reddit.urls')),
+    path('api/community/', include('community.urls')),
     path('wakemydyno.txt', empty)
 ]
