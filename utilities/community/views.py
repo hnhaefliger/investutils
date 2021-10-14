@@ -6,6 +6,7 @@ from rest_framework.permissions import AllowAny
 
 from .reddit import scrape_reddit
 from .yfinance import get_trending, get_related
+from .stocktwits import get_comments, get_top_watched, get_watchlist_count
 
 
 class RedditPostsViewSet(viewsets.ViewSet):
@@ -32,6 +33,17 @@ class RedditPostsViewSet(viewsets.ViewSet):
         return Response(data=posts, status=status.HTTP_200_OK)
 
 
+class StocktwitsWatchlistViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def get(self, request, *args, **kwargs):
+        return Response(data=get_top_watched(), status=status.HTTP_200_OK)
+
+    def retrieve(self, request, *args, **kwargs):
+        return Response(data=get_watchlist_count(kwargs['ticker']), status=status.HTTP_200_OK)
+
+
 class YFinanceTrendingViewSet(viewsets.ViewSet):
     permission_classes = (AllowAny,)
     lookup_url_kwarg = 'ticker'
@@ -39,15 +51,28 @@ class YFinanceTrendingViewSet(viewsets.ViewSet):
     def get(self, request, *args, **kwargs):
         n = 5
 
-        if 'count' in self.GET:
-            n = self.GET['count']
+        if 'count' in request.GET:
+            n = request.GET['count']
 
         return Response(data=get_trending(n), status=status.HTTP_200_OK)
 
     def retrieve(self, request, *args, **kwargs):
         n = 5
 
-        if 'count' in self.GET:
-            n = self.GET['count']
+        if 'count' in request.GET:
+            n = request.GET['count']
 
         return Response(data=get_related(n, kwargs['ticker']), status=status.HTTP_200_OK)
+
+
+class StocktwitsCommentViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def retrieve(self, request, *args, **kwargs):
+        n = 20
+
+        if 'count' in request.GET:
+            n = request.GET['count']
+
+        return Response(data=get_comments(kwargs['ticker'], n), status=status.HTTP_200_OK)
