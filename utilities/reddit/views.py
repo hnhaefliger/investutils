@@ -7,10 +7,7 @@ from rest_framework.permissions import AllowAny
 from .reddit import scrape_reddit
 
 
-class TickerViewSet(viewsets.ViewSet):
-    '''
-    Viewset for checking if a ticker exists.
-    '''
+class RedditViewSet(viewsets.ViewSet):
     permission_classes = (AllowAny,)
     lookup_url_kwarg = 'subreddit'
 
