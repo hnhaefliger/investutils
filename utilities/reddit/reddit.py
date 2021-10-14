@@ -21,10 +21,11 @@ def clean_post(post):
         'created_utc': post['created_utc'],
         'id': post['id'],
         'subreddit_subscribers': post['subreddit_subscribers'],
+        'parent': post['id'],
     }
 
 
-def get_posts(subreddit, after='', last_hrs=24*60*60):
+def get_posts(subreddit, after='', last=24*60*60):
     limit = 5
     t = time.time()
     posts = []
@@ -38,7 +39,7 @@ def get_posts(subreddit, after='', last_hrs=24*60*60):
             response = requests.get(url, headers=headers, verify=False)
 
         data = response.json()['data']['children']
-        data = [post['data'] for post in data if t - post['data']['created_utc'] < last_hrs]
+        data = [post['data'] for post in data if t - post['data']['created_utc'] < last]
         posts += data
 
         after = posts[-1]['name']
@@ -64,6 +65,7 @@ def clean_comment(comment):
         'author': comment['author'],
         'created_utc': comment['created_utc'],
         'id': comment['id'],
+        'parent': comment['parent_id']
     }
 
 
@@ -83,13 +85,8 @@ def get_comments(post):
     return comments
 
 
-def scrape_reddit(reddit):
-    posts = get_posts(reddit)
+def scrape_reddit(reddit, after='', last=24*60*60):
+    posts = get_posts(reddit, after=after, last=last)
     comments = [get_comments(post) for post in posts]
 
     return posts, comments
-
-
-posts, comments = scrape_reddit('stocks')
-
-print(posts[0], comments[0])
