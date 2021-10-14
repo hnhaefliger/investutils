@@ -28,5 +28,5 @@ class RedditViewSet(viewsets.ViewSet):
         for post in comments:
             posts += post
 
-        return Response(posts, status=status.HTTP_200_OK)
+        return Response(data=posts, status=status.HTTP_200_OK)
 
