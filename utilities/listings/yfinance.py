@@ -45,7 +45,7 @@ def get_quote(ticker):
         '3_month_average_volume': try_to_get(data, 'averageDailyVolume3Month'),
         'currency': try_to_get(data, 'currency'),
         'name': try_to_get(data, 'displayName'),
-        'dividend_data': try_to_get(data, 'dividendDate'),
+        'dividend_date': try_to_get(data, 'dividendDate'),
         'earnings_date': try_to_get(data, 'earningsTimestamp'),
         'current_eps': try_to_get(data, 'epsCurrentYear'),
         'forward_eps': try_to_get(data, 'epsForward'),
@@ -2618,7 +2618,7 @@ def get_insights(ticker):
             'info': {
                 'provider': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'provider'),
                 'resistance': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'resistance'),
-                'stopLoss': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'stopLoss'),
+                'stop_loss': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'stopLoss'),
                 'support': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'support'),
             },
             'recommendation': {
