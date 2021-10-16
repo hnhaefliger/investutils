@@ -1,4 +1,4 @@
-from .yfinance import get_yfinance_data, get_chart
+from .yfinance import *
 
 def get_ticker_data(ticker):
     return get_yfinance_data(ticker)

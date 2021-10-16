@@ -6,7 +6,7 @@ from rest_framework.permissions import AllowAny
 
 from .models import Ticker
 from .serializers import TickerSerializer
-from .data import get_ticker_data, get_ticker_chart
+from . import yfinance
 
 
 class TickerViewSet(viewsets.ViewSet):
@@ -55,18 +55,15 @@ class TickerViewSet(viewsets.ViewSet):
         
         try:
             data = Ticker.objects.get(ticker=kwargs['ticker'].upper())
-            data = {
+
+            return Response(data={
                 'ticker': data.ticker,
                 'ticker_type': data.ticker_type,
                 'on_robinhood': data.on_robinhood,
-            }
-            data.update(get_ticker_data(data['ticker']))
-
-            return Response(data=data, status=status.HTTP_200_OK)
+            }, status=status.HTTP_200_OK)
 
         except:
-            return Response(data={
-            }, status=status.HTTP_404_NOT_FOUND)
+            return Response(data={}, status=status.HTTP_404_NOT_FOUND)
 
     def create(self, request, *args, **kwargs):
         '''
@@ -110,21 +107,76 @@ class ChartViewSet(viewsets.ViewSet):
         '''
         Get ticker chart.
         '''
-        if not('range' in request.GET):
-            return Response(data={'error': 'missing range parameter'
-            }, status=status.HTTP_400_BAD_REQUEST)
+        if 'range' in request.GET:
+            if request.GET['range'] == '1d':
+                interval = '1m'
 
-        if not('interval' in request.GET):
-            return Response(data={'error': 'missing interval parameter'
-            }, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                interval = '1d'
 
+            try:
+                Ticker.objects.get(ticker=kwargs['ticker'].upper())
+
+                return Response(data=yfinance.get_chart(
+                    kwargs['ticker'],
+                    range=request.GET['range'],
+                    interval=interval
+                ), status=status.HTTP_200_OK)
+
+            except:
+                return Response(data={}, status=status.HTTP_404_NOT_FOUND)
+
+        else:
+            return Response(data={'error': 'missing range parameter'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SummaryDetailViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def retrieve(self, request, *args, **kwargs):
         try:
             Ticker.objects.get(ticker=kwargs['ticker'].upper())
+            return Response(data=yfinance.get_quote_summary_detail(kwargs['ticker']), status=status.HTTP_200_OK)
 
         except:
-            return Response(data={
-            }, status=status.HTTP_404_NOT_FOUND)
+            return Response(data={}, status=status.HTTP_404_NOT_FOUND)
 
-        data = get_ticker_chart(kwargs['ticker'], request.GET['range'], request.GET['interval'])
 
-        return Response(data=data, status=status.HTTP_200_OK)
+class AssetProfileViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            Ticker.objects.get(ticker=kwargs['ticker'].upper())
+            return Response(data=yfinance.get_quote_asset_profile(kwargs['ticker']), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={}, status=status.HTTP_404_NOT_FOUND)
+
+
+class FinancialDataViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            Ticker.objects.get(ticker=kwargs['ticker'].upper())
+            return Response(data=yfinance.get_quote_financial_data(kwargs['ticker']), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={}, status=status.HTTP_404_NOT_FOUND)
+
+
+class KeyStatisticsViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            Ticker.objects.get(ticker=kwargs['ticker'].upper())
+            return Response(data=yfinance.get_quote_key_statistics(kwargs['ticker']), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={}, status=status.HTTP_404_NOT_FOUND)
