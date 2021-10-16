@@ -108,7 +108,7 @@ def get_quote_asset_profile(ticker):
             'country': try_to_get(data, 'country'),
             'phone': try_to_get(data, 'phone'),
             'website': try_to_get(data, 'website'),
-            'industry': try_to_get(data, 'indusry'),
+            'industry': try_to_get(data, 'industry'),
             'sector': try_to_get(data, 'sector'),
             'description': try_to_get(data, 'longBusinessSummary'),
             'employees': try_to_get(data, 'fullTimeEmployees'),
