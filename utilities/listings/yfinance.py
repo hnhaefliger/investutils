@@ -280,47 +280,45 @@ def get_insights(ticker):
     data =  response.json()['finance']['result']
 
     return {
-        'insights': {
-            'company': {
-                'dividends': try_to_get(data, 'companySnapshot', 'company', 'dividends'),
-                'earnings_reports': try_to_get(data, 'companySnapshot', 'company', 'earningsReports'),
-                'hiring': try_to_get(data, 'companySnapshot', 'company', 'hiring'),
-                'inovativeness': try_to_get(data, 'companySnapshot', 'company', 'innovativeness'),
-                'insider_sentiments': try_to_get(data, 'companySnapshot', 'company', 'insiderSentiments'),
-                'sustainability': try_to_get(data, 'companySnapshot', 'company', 'sustainability'),
-            },
-            'sector': {
-                'dividends': try_to_get(data, 'companySnapshot', 'sector', 'dividends'),
-                'earnings_reports': try_to_get(data, 'companySnapshot', 'sector', 'earningsReports'),
-                'hiring': try_to_get(data, 'companySnapshot', 'sector', 'hiring'),
-                'inovativeness': try_to_get(data, 'companySnapshot', 'sector', 'innovativeness'),
-                'insider_sentiments': try_to_get(data, 'companySnapshot', 'sector', 'insiderSentiments'),
-                'sustainability': try_to_get(data, 'companySnapshot', 'sector', 'sustainability'),
-                'name': try_to_get(data, 'companySnapshot', 'sectorInfo')
-            },
-            'info': {
-                'provider': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'provider'),
-                'resistance': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'resistance'),
-                'stop_loss': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'stopLoss'),
-                'support': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'support'),
-            },
-            'recommendation': {
-                'provider': try_to_get(data, 'instrumentInfo', 'recommendation', 'provider'),
-                'rating': try_to_get(data, 'instrumentInfo', 'recommendation', 'rating'),
-                'target_price': try_to_get(data, 'instrumentInfo', 'recommendation', 'targetPrice'),
-            },
-            'technical_events': {
-                'provider': try_to_get(data, 'instrumentInfo', 'technicalEvents', 'provider'),
-                'short_term': try_to_get(data, 'instrumentInfo', 'technicalEvents', 'shortTerm'),
-                'mid_term': try_to_get(data, 'instrumentInfo', 'technicalEvents', 'midTerm'),
-                'long_term': try_to_get(data, 'instrumentInfo', 'technicalEvents', 'longTerm'),
-            },
-            'valuation': {
-                'description': try_to_get(data, 'instrumentInfo', 'valuation', 'description'),
-                'discount': try_to_get(data, 'instrumentInfo', 'valuation', 'discount'),
-                'provider': try_to_get(data, 'instrumentInfo', 'valuation', 'provider'),
-            },
-        }
+        'company': {
+            'dividends': try_to_get(data, 'companySnapshot', 'company', 'dividends'),
+            'earnings_reports': try_to_get(data, 'companySnapshot', 'company', 'earningsReports'),
+            'hiring': try_to_get(data, 'companySnapshot', 'company', 'hiring'),
+            'inovativeness': try_to_get(data, 'companySnapshot', 'company', 'innovativeness'),
+            'insider_sentiments': try_to_get(data, 'companySnapshot', 'company', 'insiderSentiments'),
+            'sustainability': try_to_get(data, 'companySnapshot', 'company', 'sustainability'),
+        },
+        'sector': {
+            'dividends': try_to_get(data, 'companySnapshot', 'sector', 'dividends'),
+            'earnings_reports': try_to_get(data, 'companySnapshot', 'sector', 'earningsReports'),
+            'hiring': try_to_get(data, 'companySnapshot', 'sector', 'hiring'),
+            'inovativeness': try_to_get(data, 'companySnapshot', 'sector', 'innovativeness'),
+            'insider_sentiments': try_to_get(data, 'companySnapshot', 'sector', 'insiderSentiments'),
+            'sustainability': try_to_get(data, 'companySnapshot', 'sector', 'sustainability'),
+            'name': try_to_get(data, 'companySnapshot', 'sectorInfo')
+        },
+        'info': {
+            'provider': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'provider'),
+            'resistance': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'resistance'),
+            'stop_loss': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'stopLoss'),
+            'support': try_to_get(data, 'instrumentInfo', 'keyTechnicals', 'support'),
+        },
+        'recommendation': {
+            'provider': try_to_get(data, 'instrumentInfo', 'recommendation', 'provider'),
+            'rating': try_to_get(data, 'instrumentInfo', 'recommendation', 'rating'),
+            'target_price': try_to_get(data, 'instrumentInfo', 'recommendation', 'targetPrice'),
+        },
+        'technical_events': {
+            'provider': try_to_get(data, 'instrumentInfo', 'technicalEvents', 'provider'),
+            'short_term': try_to_get(data, 'instrumentInfo', 'technicalEvents', 'shortTerm'),
+            'mid_term': try_to_get(data, 'instrumentInfo', 'technicalEvents', 'midTerm'),
+            'long_term': try_to_get(data, 'instrumentInfo', 'technicalEvents', 'longTerm'),
+        },
+        'valuation': {
+            'description': try_to_get(data, 'instrumentInfo', 'valuation', 'description'),
+            'discount': try_to_get(data, 'instrumentInfo', 'valuation', 'discount'),
+            'provider': try_to_get(data, 'instrumentInfo', 'valuation', 'provider'),
+        },
     }
 
 
