@@ -180,3 +180,16 @@ class KeyStatisticsViewSet(viewsets.ViewSet):
 
         except:
             return Response(data={}, status=status.HTTP_404_NOT_FOUND)
+
+
+class InsightsViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            Ticker.objects.get(ticker=kwargs['ticker'].upper())
+            return Response(data=yfinance.get_insights(kwargs['ticker']), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={}, status=status.HTTP_404_NOT_FOUND)
