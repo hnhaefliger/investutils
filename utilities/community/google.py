@@ -29,5 +29,3 @@ def get_news(ticker, n):
     data = [clean_article(article) for article in data]
 
     return data
-
-print(get_news('aapl', 5))

@@ -7,6 +7,7 @@ from rest_framework.permissions import AllowAny
 from .reddit import scrape_reddit
 from .yfinance import get_trending, get_related
 from .stocktwits import get_comments, get_top_watched, get_watchlist_count
+from . import google
 
 
 class RedditPostsViewSet(viewsets.ViewSet):
@@ -76,3 +77,11 @@ class StocktwitsCommentViewSet(viewsets.ViewSet):
             n = request.GET['count']
 
         return Response(data=get_comments(kwargs['ticker'], n), status=status.HTTP_200_OK)
+
+
+class GoogleNewsViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def retrieve(self, request, *args, **kwargs):
+        return Response(data=google.get_news(kwargs['ticker'], n), status=status.HTTP_200_OK)
