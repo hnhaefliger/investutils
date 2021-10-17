@@ -86,7 +86,6 @@ class TickerViewSet(viewsets.ViewSet):
                     'ticker_type': data.ticker_type,
                     'on_robinhood': data.on_robinhood,
                 }
-                data.update(get_ticker_data(data['ticker']))
 
                 return Response(data=data, status=status.HTTP_200_OK)
 
