@@ -14,11 +14,11 @@ def clean_article(article):
     }
 
 
-def get_news(ticker, n):
+def get_news(ticker, n=0):
     headers = {
         'User-Agent': ''.join([str(random.randint(0, 9)) for i in range(10)])}
 
-    url = f'https://news.google.com/rss/search?q={ticker}&hl=en-US&gl=US&ceid=US:en&num={n}'
+    url = f'https://news.google.com/rss/search?q={ticker} stock&hl=en-US&gl=US&ceid=US:en&num={n}'
 
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
@@ -29,3 +29,5 @@ def get_news(ticker, n):
     data = [clean_article(article) for article in data]
 
     return data
+
+print(get_news('aapl'))
