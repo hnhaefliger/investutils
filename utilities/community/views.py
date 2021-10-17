@@ -84,4 +84,4 @@ class GoogleNewsViewSet(viewsets.ViewSet):
     lookup_url_kwarg = 'ticker'
 
     def retrieve(self, request, *args, **kwargs):
-        return Response(data=google.get_news(kwargs['ticker'], n), status=status.HTTP_200_OK)
+        return Response(data=google.get_news(kwargs['ticker']), status=status.HTTP_200_OK)
