@@ -41,7 +41,7 @@ class StocktwitsWatchlistViewSet(viewsets.ViewSet):
         return Response(data=get_top_watched(), status=status.HTTP_200_OK)
 
     def retrieve(self, request, *args, **kwargs):
-        return Response(data=get_watchlist_count(kwargs['ticker']), status=status.HTTP_200_OK)
+        return Response(data={'count': get_watchlist_count(kwargs['ticker'])}, status=status.HTTP_200_OK)
 
 
 class YFinanceTrendingViewSet(viewsets.ViewSet):
