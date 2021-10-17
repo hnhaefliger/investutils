@@ -3,22 +3,33 @@ import warnings
 import random
 
 
+def try_to_get(dict, *args):
+    try:
+        for arg in args:
+            dict = dict[arg]
+
+        return dict
+
+    except:
+        return None
+
+
 def clean_comment(comment):
     return {
-        'id': comment['id'],
-        'body': comment['body'],
-        'sentiment': comment['entities']['sentiment'],
-        'created_at': comment['created_at'],
-        'source': comment['source'],
-        'symbols': [symbol['symbol'] for symbol in comment['symbol']],
+        'id': try_to_get(comment, 'id'),
+        'body': try_to_get(comment, 'body'),
+        'sentiment': try_to_get(comment, 'entities', 'sentiment'),
+        'created_at': try_to_get(comment, 'created_at'),
+        'source': try_to_get(comment, 'source'),
+        'symbols': [try_to_get(symbol, 'symbol') for symbol in comment['symbol']],
         'user': {
-            'followers': comment['user']['followers'],
-            'following': comment['user']['following'],
-            'id': comment['user']['id'],
-            'ideas': comment['user']['ideas'],
-            'join_date': comment['user']['join_date'],
-            'name': comment['user']['name'],
-            'username': comment['user']['username'],
+            'followers': try_to_get(comment, 'user', 'followers'),
+            'following': try_to_get(comment, 'user', 'following'),
+            'id': try_to_get(comment, 'user', 'id'),
+            'ideas': try_to_get(comment, 'user', 'ideas'),
+            'join_date': try_to_get(comment, 'user', 'join_date'),
+            'name': try_to_get(comment, 'user', 'name'),
+            'username': try_to_get(comment, 'user', 'username'),
         },
     }
 
