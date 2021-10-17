@@ -21,7 +21,7 @@ def clean_comment(comment):
         'sentiment': try_to_get(comment, 'entities', 'sentiment'),
         'created_at': try_to_get(comment, 'created_at'),
         'source': try_to_get(comment, 'source'),
-        'symbols': [try_to_get(symbol, 'symbol') for symbol in comment['symbol']],
+        'symbols': [try_to_get(symbol, 'symbol') for symbol in comment['symbols']],
         'user': {
             'followers': try_to_get(comment, 'user', 'followers'),
             'following': try_to_get(comment, 'user', 'following'),
