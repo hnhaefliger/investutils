@@ -51,9 +51,9 @@ def get_posts(subreddit, after='', last=24*60*60):
 
 
 def clean_comment(comment):
-    print(json.dumps(comment, indent='\t'))
+    #print(json.dumps(comment, indent='\t'))
     return {
-        #'subreddit': comment['subreddit'],
+        'subreddit': comment['subreddit'],
         'selftext': comment['body'],
         'title': '',
         'downs': comment['downs'],
@@ -71,7 +71,7 @@ def clean_comment(comment):
 
 
 def get_comments(post): 
-    print(json.dumps(post, indent='\t'))
+    #print(json.dumps(post, indent='\t'))
     headers = {'User-Agent': ''.join([str(random.randint(0, 9)) for i in range(10)])}
     url = f'https://www.reddit.com/r/{post["subreddit"]}/comments/{post["id"]}/.json?'
 
@@ -82,7 +82,7 @@ def get_comments(post):
     comments = response.json()[1]['data']['children']
     comments = [comment['data'] for comment in comments]
 
-    comments = [clean_comment(comment) for comment in comments[1:]]
+    comments = [clean_comment(comment) for comment in comments[:-1]]
 
     return comments
 
