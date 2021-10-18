@@ -52,7 +52,7 @@ def get_posts(subreddit, after='', last=24*60*60):
 
 def clean_comment(comment):
     return {
-        'subreddit': comment['subreddit'],
+        #'subreddit': comment['subreddit'],
         'selftext': comment['body'],
         'title': '',
         'downs': comment['downs'],
