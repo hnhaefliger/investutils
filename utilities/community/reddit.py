@@ -51,6 +51,7 @@ def get_posts(subreddit, after='', last=24*60*60):
 
 
 def clean_comment(comment):
+    print(json.dumps(comment, indent='\t'))
     return {
         #'subreddit': comment['subreddit'],
         'selftext': comment['body'],
@@ -69,7 +70,8 @@ def clean_comment(comment):
     }
 
 
-def get_comments(post):
+def get_comments(post): 
+    print(json.dumps(post, indent='\t'))
     headers = {'User-Agent': ''.join([str(random.randint(0, 9)) for i in range(10)])}
     url = f'https://www.reddit.com/r/{post["subreddit"]}/comments/{post["id"]}/.json?'
 
@@ -90,3 +92,6 @@ def scrape_reddit(reddit, after='', last=24*60*60):
     comments = [get_comments(post) for post in posts]
 
     return posts, comments
+
+
+scrape_reddit('stocks')
