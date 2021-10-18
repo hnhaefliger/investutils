@@ -19,7 +19,7 @@ def clean_comment(comment):
     return {
         'id': try_to_get(comment, 'id'),
         'body': try_to_get(comment, 'body'),
-        'sentiment': try_to_get(comment, 'entities', 'sentiment'),
+        'sentiment': try_to_get(comment, 'entities', 'sentiment', 'basic'),
         'created_at': try_to_get(comment, 'created_at'),
         'source': try_to_get(comment, 'source'),
         'symbols': [try_to_get(symbol, 'symbol') for symbol in comment['symbols']],
