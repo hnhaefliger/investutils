@@ -18,7 +18,6 @@ def clean_post(post):
         'score': post['score'],
         'created': post['created'],
         'author': post['author'],
-        'created_utc': post['created_utc'],
         'id': post['id'],
         'subreddit_subscribers': post['subreddit_subscribers'],
         'parent': post['id'],
@@ -64,7 +63,6 @@ def clean_comment(comment):
         'score': comment['score'],
         'created': comment['created'],
         'author': comment['author'],
-        'created_utc': comment['created_utc'],
         'id': comment['id'],
         'parent': comment['parent_id'],
         'type': 'comment',
@@ -82,7 +80,7 @@ def get_comments(post):
     comments = response.json()[1]['data']['children']
     comments = [comment['data'] for comment in comments]
 
-    comments = [clean_comment(comment) for comment in comments]
+    comments = [clean_comment(comment) for comment in comments[1:]]
 
     return comments
 
