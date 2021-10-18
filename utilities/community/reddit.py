@@ -7,7 +7,7 @@ import json
 
 def clean_post(post):
     return {
-        'subreddit': post['subreddit'],
+        #'subreddit': post['subreddit'],
         'selftext': post['selftext'],
         'title': post['title'],
         'downs': post['downs'],
