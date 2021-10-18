@@ -7,7 +7,7 @@ import json
 
 def clean_post(post):
     return {
-        #'subreddit': post['subreddit'],
+        'subreddit': post['subreddit'],
         'selftext': post['selftext'],
         'title': post['title'],
         'downs': post['downs'],
@@ -22,6 +22,7 @@ def clean_post(post):
         'id': post['id'],
         'subreddit_subscribers': post['subreddit_subscribers'],
         'parent': post['id'],
+        'type': 'post',
     }
 
 
@@ -65,7 +66,8 @@ def clean_comment(comment):
         'author': comment['author'],
         'created_utc': comment['created_utc'],
         'id': comment['id'],
-        'parent': comment['parent_id']
+        'parent': comment['parent_id'],
+        'type': 'comment',
     }
 
 
