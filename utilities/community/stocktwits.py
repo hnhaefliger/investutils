@@ -1,6 +1,7 @@
 import requests
 import warnings
 import random
+import json
 
 
 def try_to_get(dict, *args):
@@ -69,5 +70,31 @@ def get_top_watched():
         response = requests.get(url, headers=headers, verify=False)
 
     data = response.json()
+
+    return data
+
+
+def get_sentiment(ticker):
+    headers = {'User-Agent': ''.join([str(random.randint(0, 9)) for i in range(10)])}
+    url = f'https://api.stocktwits.com/api/2/symbols/{ticker}/sentiment.json'
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        response = requests.get(url, headers=headers, verify=False)
+
+    data = response.json()['data']
+
+    return data
+    
+
+def get_message_volume(ticker):
+    headers = {'User-Agent': ''.join([str(random.randint(0, 9)) for i in range(10)])}
+    url = f'https://api.stocktwits.com/api/2/symbols/{ticker}/volume.json'
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        response = requests.get(url, headers=headers, verify=False)
+
+    data = response.json()['data']
 
     return data
