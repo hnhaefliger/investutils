@@ -2,6 +2,7 @@ import requests
 import warnings
 import random
 import re
+import datetime
 
 
 def clean_article(article):
@@ -14,11 +15,14 @@ def clean_article(article):
     }
 
 
-def get_news(ticker, n=0):
+def get_news(ticker, n=0, timedelta=7):
     headers = {
         'User-Agent': ''.join([str(random.randint(0, 9)) for i in range(10)])}
 
-    url = f'https://news.google.com/rss/search?q={ticker} stock&hl=en-US&gl=US&ceid=US:en&num={n}'
+    date = datetime.date.today() - datetime.timedelta(timedelta)
+    date = date.strftime('%Y-%m-%d')
+
+    url = f'https://news.google.com/rss/search?q={ticker} stock after:{date}&hl=en-US&gl=US&ceid=US:en&num={n}'
 
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
@@ -29,5 +33,3 @@ def get_news(ticker, n=0):
     data = [clean_article(article) for article in data]
 
     return data
-
-print(get_news('aapl'))

@@ -84,4 +84,13 @@ class GoogleNewsViewSet(viewsets.ViewSet):
     lookup_url_kwarg = 'ticker'
 
     def retrieve(self, request, *args, **kwargs):
-        return Response(data=google.get_news(kwargs['ticker']), status=status.HTTP_200_OK)
+        timedelta = 7
+
+        if 'timedelta' in request.GET:
+            try:
+                timedelta = int(request.GET['timedelta'])
+
+            except:
+                return Response(data={'error': 'invalid timedelta value'}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(data=google.get_news(kwargs['ticker'], timedelta=timedelta), status=status.HTTP_200_OK)
