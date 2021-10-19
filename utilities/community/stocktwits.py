@@ -69,7 +69,8 @@ def get_top_watched():
         warnings.simplefilter("ignore")
         response = requests.get(url, headers=headers, verify=False)
 
-    data = response.json()
+    data = response.json()['top_watched']
+    data = [line['symbol'] for line in data]
 
     return data
 
