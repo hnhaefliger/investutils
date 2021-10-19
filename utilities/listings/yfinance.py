@@ -4,6 +4,21 @@ import random
 import json
 
 
+def get(url):
+    headers = {
+        'User-Agent': ''.join(random.sample('abcdefghijklmnopqrstuvwxyz', 10))
+    }
+
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore')
+        response = requests.get(
+            url,
+            headers=headers, verify=False
+        )
+
+    return response.json()
+
+
 def try_to_get(dict, *args):
     try:
         for arg in args:
@@ -16,33 +31,11 @@ def try_to_get(dict, *args):
 
 
 def get_ticker(ticker):
-    headers = {
-        'User-Agent': ''.join(random.sample('abcdefghijklmnopqrstuvwxyz', 10))
-    }
-
-    with warnings.catch_warnings():
-        warnings.simplefilter('ignore')
-        response = requests.get(
-            f'https://query1.finance.yahoo.com/v6/finance/quote?symbols={ticker}',
-            headers=headers, verify=False
-        )
-
-    return response.json()
+    return get(f'https://query1.finance.yahoo.com/v6/finance/quote?symbols={ticker}')
 
 
 def get_quote_summary_detail(ticker):
-    headers = {
-        'User-Agent': ''.join(random.sample('abcdefghijklmnopqrstuvwxyz', 10))
-    }
-
-    with warnings.catch_warnings():
-        warnings.simplefilter('ignore')
-        response = requests.get(
-            f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=summaryDetail',
-            headers=headers, verify=False
-        )
-
-    data = response.json()['quoteSummary']['result']
+    data = get(f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=summaryDetail')['quoteSummary']['result']
 
     if data:
         data = data[0]['summaryDetail']
@@ -85,18 +78,7 @@ def get_quote_summary_detail(ticker):
 
 
 def get_quote_asset_profile(ticker):
-    headers = {
-        'User-Agent': ''.join(random.sample('abcdefghijklmnopqrstuvwxyz', 10))
-    }
-
-    with warnings.catch_warnings():
-        warnings.simplefilter('ignore')
-        response = requests.get(
-            f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=assetProfile',
-            headers=headers, verify=False
-        )
-
-    data = response.json()['quoteSummary']['result']
+    data = get(f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=assetProfile')['quoteSummary']['result']
 
     if data:
         data = data[0]['assetProfile']
@@ -135,20 +117,7 @@ def get_quote_asset_profile(ticker):
 
 
 def get_quote_financial_data(ticker):
-    headers = {
-        'User-Agent': ''.join(random.sample('abcdefghijklmnopqrstuvwxyz', 10))
-    }
-
-    with warnings.catch_warnings():
-        warnings.simplefilter('ignore')
-        response = requests.get(
-            f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=financialData',
-            headers=headers, verify=False
-        )
-
-    data = response.json()['quoteSummary']['result']
-
-    print(json.dumps(data, indent='\t'))
+    data = get(f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=financialData')['quoteSummary']['result']
 
     if data:
         data = data[0]['financialData']
@@ -190,20 +159,7 @@ def get_quote_financial_data(ticker):
 
 
 def get_quote_key_statistics(ticker):
-    headers = {
-        'User-Agent': ''.join(random.sample('abcdefghijklmnopqrstuvwxyz', 10))
-    }
-
-    with warnings.catch_warnings():
-        warnings.simplefilter('ignore')
-        response = requests.get(
-            f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=defaultKeyStatistics',
-            headers=headers, verify=False
-        )
-
-    data = response.json()['quoteSummary']['result']
-
-    print(json.dumps(data, indent='\t'))
+    data = get(f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=defaultKeyStatistics')['quoteSummary']['result']
 
     if data:
         data = data[0]['defaultKeyStatistics']
@@ -262,22 +218,104 @@ def get_quote_key_statistics(ticker):
         return None
 
 
-#,calendarEvents,incomeStatementHistory,incomeStatementHistoryQuarterly,cashflowStatementHistory,balanceSheetHistory,earnings,earningsHistory,insiderHolders,cashflowStatementHistory,cashflowStatementHistoryQuarterly,insiderTransactions,secFilings,indexTrend,earningsTrend,netSharePurchaseActivity,upgradeDowngradeHistory,institutionOwnership,recommendationTrend,balanceSheetHistory,balanceSheetHistoryQuarterly,fundOwnership,majorDirectHolders,majorHoldersBreakdown,,price,,quoteType,,esgScores',
+def get_quote_calendar_events(ticker):
+    data = get(f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=calendarEvents')['quoteSummary']['result']
+
+    print(json.dumps(data, indent='\t'))
+
+    if data:
+        data = data[0]['calendarEvents']
+
+        return {
+        }
+
+    else:
+        return None
+
+
+def get_quote_income_statement(ticker):
+    data = get(f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=incomeStatementHistory')['quoteSummary']['result']
+
+    print(json.dumps(data, indent='\t'))
+
+    if data:
+        data = data[0]['incomeStatementHistory']
+
+        return {
+        }
+
+    else:
+        return None
+
+
+def get_quote_income_statement_quarterly(ticker):
+    data = get(
+        f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=incomeStatementHistoryQuarterly')['quoteSummary']['result']
+
+    print(json.dumps(data, indent='\t'))
+
+    if data:
+        data = data[0]['incomeStatementHistoryQuarterly']
+
+        return {
+        }
+
+    else:
+        return None
+
+
+def get_quote_cashflow_statement(ticker):
+    data = get(
+        f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=cashflowStatementHistory')['quoteSummary']['result']
+
+    print(json.dumps(data, indent='\t'))
+
+    if data:
+        data = data[0]['cashflowStatementHistory']
+
+        return {
+        }
+
+    else:
+        return None
+
+
+def get_quote_balancesheet_history(ticker):
+    data = get(
+        f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=balanceSheetHistory')['quoteSummary']['result']
+
+    print(json.dumps(data, indent='\t'))
+
+    if data:
+        data = data[0]['balanceSheetHistory']
+
+        return {
+        }
+
+    else:
+        return None
+
+    
+def get_quote_earnings(ticker):
+    data = get(
+        f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=earnings')['quoteSummary']['result']
+
+    print(json.dumps(data, indent='\t'))
+
+    if data:
+        data = data[0]['earnings']
+
+        return {
+        }
+
+    else:
+        return None
+
+#,,,,,,,earningsHistory,insiderHolders,cashflowStatementHistory,cashflowStatementHistoryQuarterly,insiderTransactions,secFilings,indexTrend,earningsTrend,netSharePurchaseActivity,upgradeDowngradeHistory,institutionOwnership,recommendationTrend,balanceSheetHistory,balanceSheetHistoryQuarterly,fundOwnership,majorDirectHolders,majorHoldersBreakdown,,price,,quoteType,,esgScores',
 
 
 def get_insights(ticker):
-    headers = {
-        'User-Agent': ''.join(random.sample('abcdefghijklmnopqrstuvwxyz', 10))
-    }
-
-    with warnings.catch_warnings():
-        warnings.simplefilter('ignore')
-        response = requests.get(
-            f'https://query1.finance.yahoo.com/ws/insights/v1/finance/insights?symbol={ticker}',
-            headers=headers, verify=False
-        )
-
-    data =  response.json()['finance']['result']
+    data = get(f'https://query1.finance.yahoo.com/ws/insights/v1/finance/insights?symbol={ticker}')['finance']['result']
 
     return {
         'company': {
@@ -323,18 +361,7 @@ def get_insights(ticker):
 
 
 def get_chart(ticker, range='1y', interval='1d'):
-    headers = {
-        'User-Agent': ''.join(random.sample('abcdefghijklmnopqrstuvwxyz', 10))
-    }
-
-    with warnings.catch_warnings():
-        warnings.simplefilter('ignore')
-        response = requests.get(
-            f'https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?range={range}&interval={interval}',
-            headers=headers, verify=False
-        )
-
-    data = response.json()
+    data = get(f'https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?range={range}&interval={interval}')
 
     return {
         'timestamps': try_to_get(data, 'chart', 'result', 0, 'timestamp'),
@@ -345,12 +372,3 @@ def get_chart(ticker, range='1y', interval='1d'):
         'volume': try_to_get(data, 'chart', 'result', 0, 'indicators', 'quote', 0, 'volume'),
         'adjusted_close': try_to_get(data, 'chart', 'result', 0, 'indicators', 'adjclose', 0, 'adjclose'),
     }
-
-
-def get_yfinance_data(ticker):
-    data = {}
-    data.update(get_insights(ticker))
-    data.update(get_quote(ticker))
-    data.update(get_quote_summary(ticker))
-
-    return data
