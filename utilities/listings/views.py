@@ -63,7 +63,7 @@ class TickerViewSet(viewsets.ViewSet):
             }, status=status.HTTP_200_OK)
 
         except:
-            return Response(data={}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
 
     def create(self, request, *args, **kwargs):
         '''
@@ -123,7 +123,7 @@ class ChartViewSet(viewsets.ViewSet):
                 ), status=status.HTTP_200_OK)
 
             except:
-                return Response(data={}, status=status.HTTP_404_NOT_FOUND)
+                return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
 
         else:
             return Response(data={'error': 'missing range parameter'}, status=status.HTTP_400_BAD_REQUEST)
@@ -139,7 +139,7 @@ class SummaryDetailViewSet(viewsets.ViewSet):
             return Response(data=yfinance.get_quote_summary_detail(kwargs['ticker']), status=status.HTTP_200_OK)
 
         except:
-            return Response(data={}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class AssetProfileViewSet(viewsets.ViewSet):
@@ -152,7 +152,7 @@ class AssetProfileViewSet(viewsets.ViewSet):
             return Response(data=yfinance.get_quote_asset_profile(kwargs['ticker']), status=status.HTTP_200_OK)
 
         except:
-            return Response(data={}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class FinancialDataViewSet(viewsets.ViewSet):
@@ -165,7 +165,7 @@ class FinancialDataViewSet(viewsets.ViewSet):
             return Response(data=yfinance.get_quote_financial_data(kwargs['ticker']), status=status.HTTP_200_OK)
 
         except:
-            return Response(data={}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class KeyStatisticsViewSet(viewsets.ViewSet):
@@ -178,7 +178,7 @@ class KeyStatisticsViewSet(viewsets.ViewSet):
             return Response(data=yfinance.get_quote_key_statistics(kwargs['ticker']), status=status.HTTP_200_OK)
 
         except:
-            return Response(data={}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class InsightsViewSet(viewsets.ViewSet):
@@ -191,4 +191,4 @@ class InsightsViewSet(viewsets.ViewSet):
             return Response(data=yfinance.get_insights(kwargs['ticker']), status=status.HTTP_200_OK)
 
         except:
-            return Response(data={}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
