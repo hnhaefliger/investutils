@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-import django_on_heroku
 from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 import os
@@ -143,4 +142,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Heroku
+
+import django_on_heroku
 django_on_heroku.settings(locals())

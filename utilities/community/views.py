@@ -33,6 +33,9 @@ class RedditPostsViewSet(viewsets.ViewSet):
 
         return Response(data=posts, status=status.HTTP_200_OK)
 
+    def create(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
 
 class YFinanceTrendingViewSet(viewsets.ViewSet):
     permission_classes = (AllowAny,)
@@ -54,6 +57,9 @@ class YFinanceTrendingViewSet(viewsets.ViewSet):
 
         return Response(data=yfinance.get_related(n, kwargs['ticker']), status=status.HTTP_200_OK)
 
+    def create(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
 
 class StocktwitsWatchlistViewSet(viewsets.ViewSet):
     permission_classes = (AllowAny,)
@@ -64,6 +70,9 @@ class StocktwitsWatchlistViewSet(viewsets.ViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         return Response(data={'count': stocktwits.get_watchlist_count(kwargs['ticker'])}, status=status.HTTP_200_OK)
+
+    def create(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 class StocktwitsCommentViewSet(viewsets.ViewSet):
