@@ -55,7 +55,11 @@ class YFinanceTrendingViewSet(viewsets.ViewSet):
         if 'count' in request.GET:
             n = request.GET['count']
 
-        return Response(data=yfinance.get_related(n, kwargs['ticker']), status=status.HTTP_200_OK)
+        try:
+            return Response(data=yfinance.get_related(n, kwargs['ticker']), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={'error': 'token not found'}, status=status.HTTP_404_NOT_FOUND)
 
     def create(self, request, *args, **kwargs):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -69,7 +73,11 @@ class StocktwitsWatchlistViewSet(viewsets.ViewSet):
         return Response(data=stocktwits.get_top_watched(), status=status.HTTP_200_OK)
 
     def retrieve(self, request, *args, **kwargs):
-        return Response(data={'count': stocktwits.get_watchlist_count(kwargs['ticker'])}, status=status.HTTP_200_OK)
+        try:
+            return Response(data={'count': stocktwits.get_watchlist_count(kwargs['ticker'])}, status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={'error': 'token not found'}, status=status.HTTP_404_NOT_FOUND)
 
     def create(self, request, *args, **kwargs):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -85,7 +93,11 @@ class StocktwitsCommentViewSet(viewsets.ViewSet):
         if 'count' in request.GET:
             n = request.GET['count']
 
-        return Response(data=stocktwits.get_comments(kwargs['ticker'], n), status=status.HTTP_200_OK)
+        try:
+            return Response(data=stocktwits.get_comments(kwargs['ticker'], n), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={'error': 'token not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class StocktwitsSentimentViewSet(viewsets.ViewSet):
@@ -93,7 +105,11 @@ class StocktwitsSentimentViewSet(viewsets.ViewSet):
     lookup_url_kwarg = 'ticker'
 
     def retrieve(self, request, *args, **kwargs):
-        return Response(data=stocktwits.get_sentiment(kwargs['ticker']), status=status.HTTP_200_OK)
+        try:
+            return Response(data=stocktwits.get_sentiment(kwargs['ticker']), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={'error': 'token not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class StocktwitsMessageVolumeViewSet(viewsets.ViewSet):
@@ -101,7 +117,11 @@ class StocktwitsMessageVolumeViewSet(viewsets.ViewSet):
     lookup_url_kwarg = 'ticker'
 
     def retrieve(self, request, *args, **kwargs):
-        return Response(data=stocktwits.get_message_volume(kwargs['ticker']), status=status.HTTP_200_OK)
+        try:
+            return Response(data=stocktwits.get_message_volume(kwargs['ticker']), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={'error': 'token not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class GoogleNewsViewSet(viewsets.ViewSet):
@@ -118,4 +138,8 @@ class GoogleNewsViewSet(viewsets.ViewSet):
             except:
                 return Response(data={'error': 'invalid timedelta value'}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(data=google.get_news(kwargs['ticker'], timedelta=timedelta), status=status.HTTP_200_OK)
+        try:
+            return Response(data=google.get_news(kwargs['ticker'], timedelta=timedelta), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={'error': 'token not found'}, status=status.HTTP_404_NOT_FOUND)
