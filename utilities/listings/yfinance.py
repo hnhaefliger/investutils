@@ -221,12 +221,20 @@ def get_quote_key_statistics(ticker):
 def get_quote_calendar_events(ticker):
     data = get(f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=calendarEvents')['quoteSummary']['result']
 
-    print(json.dumps(data, indent='\t'))
-
     if data:
         data = data[0]['calendarEvents']
 
         return {
+            'earnings_earliest': try_to_get(data, 'earnings', 'earningsDate', 0, 'raw'),
+            'earnings_latest': try_to_get(data, 'earnings', 'earningsDate', 1, 'raw'),
+            'earnings_average': try_to_get(data, 'earnings', 'earningsAverage', 'raw'),
+            'earnings_low': try_to_get(data, 'earnings', 'earningsLow', 'raw'),
+            'earnings_high': try_to_get(data, 'earnings', 'earningsHigh', 'raw'),
+            'revenue_average': try_to_get(data, 'earnings', 'revenueAverage', 'raw'),
+            'revenue_low': try_to_get(data, 'earnings', 'revenueLow', 'raw'),
+            'revenue_high': try_to_get(data, 'earnings', 'revenueHigh', 'raw'),
+            'ex_dividend_date': try_to_get(data, 'exDividendDate', 'raw'),
+            'dividend_date': try_to_get(data, 'dividendDate', 'raw'),
         }
 
     else:
@@ -236,13 +244,34 @@ def get_quote_calendar_events(ticker):
 def get_quote_income_statement(ticker):
     data = get(f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=incomeStatementHistory')['quoteSummary']['result']
 
-    print(json.dumps(data, indent='\t'))
-
     if data:
         data = data[0]['incomeStatementHistory']
 
-        return {
-        }
+        return [{
+            'end_date': try_to_get(statement, 'endDate', 'raw'),
+            'total_revenue': try_to_get(statement, 'totalRevenue', 'raw'),
+            'cost_of_revenue': try_to_get(statement, 'costOfRevenue', 'raw'),
+            'gross_profit': try_to_get(statement, 'grossProfit', 'raw'),
+            'research_and_development': try_to_get(statement, 'researchDevelopment', 'raw'),
+            'selling_general_administrative': try_to_get(statement, 'sellingGeneralAdministrative', 'raw'),
+            'non_recurring': try_to_get(statement, 'nonRecurring', 'raw'),
+            'other_operating_expenses': try_to_get(statement, 'otherOperatingExpenses', 'raw'),
+            'total_operating_expenses': try_to_get(statement, 'totalOperatingExpenses', 'raw'),
+            'operating_income': try_to_get(statement, 'operatingIncome', 'raw'),
+            'total_other_income_expense_net': try_to_get(statement, 'totalOtherIncomeExpenseNet', 'raw'),
+            'ebit': try_to_get(statement, 'ebit', 'raw'),
+            'interest_expense': try_to_get(statement, 'interestExpense', 'raw'),
+            'income_before_tax': try_to_get(statement, 'incomeBeforeTax', 'raw'),
+            'income_tax_expense': try_to_get(statement, 'incomeTaxExpense', 'raw'),
+            'minority_interest': try_to_get(statement, 'minorityInterest', 'raw'),
+            'net_income_from_continuing_ops': try_to_get(statement, 'netIncomeFromContinuingOps', 'raw'),
+            'discontinued_operations': try_to_get(statement, 'discontinuedOperations', 'raw'),
+            'extraordinary_items': try_to_get(statement, 'extraordinaryItems', 'raw'),
+            'effect_of_accounting_charges': try_to_get(statement, 'effectOfAccountingCharges', 'raw'),
+            'other_items': try_to_get(statement, 'otherItems', 'raw'),
+            'net_income': try_to_get(statement, 'netIncome', 'raw'),
+            'net_income_applicable_to_common_shares': try_to_get(statement, 'netIncomeApplicableToCommonShares', 'raw'),
+        } for statement in data['incomeStatementHistory']]
 
     else:
         return None
@@ -252,13 +281,34 @@ def get_quote_income_statement_quarterly(ticker):
     data = get(
         f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=incomeStatementHistoryQuarterly')['quoteSummary']['result']
 
-    print(json.dumps(data, indent='\t'))
-
     if data:
         data = data[0]['incomeStatementHistoryQuarterly']
 
-        return {
-        }
+        return [{
+            'end_date': try_to_get(statement, 'endDate', 'raw'),
+            'total_revenue': try_to_get(statement, 'totalRevenue', 'raw'),
+            'cost_of_revenue': try_to_get(statement, 'costOfRevenue', 'raw'),
+            'gross_profit': try_to_get(statement, 'grossProfit', 'raw'),
+            'research_and_development': try_to_get(statement, 'researchDevelopment', 'raw'),
+            'selling_general_administrative': try_to_get(statement, 'sellingGeneralAdministrative', 'raw'),
+            'non_recurring': try_to_get(statement, 'nonRecurring', 'raw'),
+            'other_operating_expenses': try_to_get(statement, 'otherOperatingExpenses', 'raw'),
+            'total_operating_expenses': try_to_get(statement, 'totalOperatingExpenses', 'raw'),
+            'operating_income': try_to_get(statement, 'operatingIncome', 'raw'),
+            'total_other_income_expense_net': try_to_get(statement, 'totalOtherIncomeExpenseNet', 'raw'),
+            'ebit': try_to_get(statement, 'ebit', 'raw'),
+            'interest_expense': try_to_get(statement, 'interestExpense', 'raw'),
+            'income_before_tax': try_to_get(statement, 'incomeBeforeTax', 'raw'),
+            'income_tax_expense': try_to_get(statement, 'incomeTaxExpense', 'raw'),
+            'minority_interest': try_to_get(statement, 'minorityInterest', 'raw'),
+            'net_income_from_continuing_ops': try_to_get(statement, 'netIncomeFromContinuingOps', 'raw'),
+            'discontinued_operations': try_to_get(statement, 'discontinuedOperations', 'raw'),
+            'extraordinary_items': try_to_get(statement, 'extraordinaryItems', 'raw'),
+            'effect_of_accounting_charges': try_to_get(statement, 'effectOfAccountingCharges', 'raw'),
+            'other_items': try_to_get(statement, 'otherItems', 'raw'),
+            'net_income': try_to_get(statement, 'netIncome', 'raw'),
+            'net_income_applicable_to_common_shares': try_to_get(statement, 'netIncomeApplicableToCommonShares', 'raw'),
+        } for statement in data['incomeStatementHistory']]
 
     else:
         return None
@@ -268,13 +318,31 @@ def get_quote_cashflow_statement(ticker):
     data = get(
         f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=cashflowStatementHistory')['quoteSummary']['result']
 
-    print(json.dumps(data, indent='\t'))
-
     if data:
         data = data[0]['cashflowStatementHistory']
 
-        return {
-        }
+        return [{
+            'end_date': try_to_get(statement, 'endDate', 'raw'),
+            'net_income': try_to_get(statement, 'netIncome', 'raw'),
+            'depreciation': try_to_get(statement, 'depreciation', 'raw'),
+            'change_to_net_income': try_to_get(statement, 'changeToNetincome', 'raw'),
+            'change_to_account_receivables': try_to_get(statement, 'changeToAccountReceivables', 'raw'),
+            'change_to_liabilities': try_to_get(statement, 'changeToLiabilities', 'raw'),
+            'change_to_inventory': try_to_get(statement, 'changeToInventory', 'raw'),
+            'change_to_operating_activities': try_to_get(statement, 'changeToOperatingActivities', 'raw'),
+            'total_cash_from_operating_activities': try_to_get(statement, 'totalCashFromOperatingActivities', 'raw'),
+            'capital_expenditures': try_to_get(statement, 'capitalExpenditures', 'raw'),
+            'investments': try_to_get(statement, 'investments', 'raw'),
+            'other_cashflows_from_investing_activities': try_to_get(statement, 'otherCashflowsFromInvestingActivities', 'raw'),
+            'total_cashflows_from_investing_activities': try_to_get(statement, 'totalCashflowsFromInvestingActivities', 'raw'),
+            'dividends_paid': try_to_get(statement, 'dividendsPaid', 'raw'),
+            'net_borrowings': try_to_get(statement, 'netBorrowings', 'raw'),
+            'other_cashflows_from_financing_activities': try_to_get(statement, 'otherCashflowsFromFinancingActivities', 'raw'),
+            'total_cash_from_financing_activities': try_to_get(statement, 'totalCashFromFinancingActivities', 'raw'),
+            'change_in_cash': try_to_get(statement, 'changeInCash', 'raw'),
+            'repurchase_of_stock': try_to_get(statement, 'repurchaseOfStock', 'raw'),
+            'issuance_of_stock': try_to_get(statement, 'issuanceOfStock', 'raw'),
+        } for statement in data['cashflowStatements']]
 
     else:
         return None
@@ -284,13 +352,35 @@ def get_quote_balancesheet_history(ticker):
     data = get(
         f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=balanceSheetHistory')['quoteSummary']['result']
 
-    print(json.dumps(data, indent='\t'))
-
     if data:
         data = data[0]['balanceSheetHistory']
 
-        return {
-        }
+        return [{
+            'end_date': try_to_get(statement, 'endDate', 'raw'),
+            'cash': try_to_get(statement, 'cash', 'raw'),
+            'short_term_investments': try_to_get(statement, 'shortTermInvestments', 'raw'),
+            'net_receivables': try_to_get(statement, 'netReceivables', 'raw'),
+            'inventory': try_to_get(statement, 'inventory', 'raw'),
+            'other_current_assets': try_to_get(statement, 'otherCurrentAssets', 'raw'),
+            'total_current_assets': try_to_get(statement, 'totalCurrentAssets', 'raw'),
+            'long_term_investments': try_to_get(statement, 'longTermInvestments', 'raw'),
+            'property_plant_equipment': try_to_get(statement, 'propertyPlantEquipment', 'raw'),
+            'other_assets': try_to_get(statement, 'otherAssets', 'raw'),
+            'total_assets': try_to_get(statement, 'totalAssets', 'raw'),
+            'accounts_payable': try_to_get(statement, 'accountsPayable', 'raw'),
+            'short_long_term_debt': try_to_get(statement, 'shortLongTermDebt', 'raw'),
+            'other_current_liabilities': try_to_get(statement, 'otherCurrentLiab', 'raw'),
+            'long_term_debt': try_to_get(statement, 'longTermDebt', 'raw'),
+            'other_liabilities': try_to_get(statement, 'otherLiab', 'raw'),
+            'total_current_liabilities': try_to_get(statement, 'totalCurrentLiabilities', 'raw'),
+            'total_liabilities': try_to_get(statement, 'totalLiab', 'raw'),
+            'common_stock': try_to_get(statement, 'commonStock', 'raw'),
+            'retained_earnings': try_to_get(statement, 'retainedEarnings', 'raw'),
+            'treasury_stock': try_to_get(statement, 'treasuryStock', 'raw'),
+            'other_stockholder_equity': try_to_get(statement, 'otherStockholderEquity', 'raw'),
+            'total_stockholder_equity': try_to_get(statement, 'totalStockholderEquity', 'raw'),
+            'net_tangible_assets': try_to_get(statement, 'netTangibleAssets', 'raw'),
+        } for statement in data['balanceSheetStatements']]
 
     else:
         return None
@@ -300,16 +390,17 @@ def get_quote_earnings(ticker):
     data = get(
         f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=earnings')['quoteSummary']['result']
 
-    print(json.dumps(data, indent='\t'))
-
     if data:
         data = data[0]['earnings']
+
+        print(json.dumps(data, indent='\t'))
 
         return {
         }
 
     else:
         return None
+
 
 #,,,,,,,earningsHistory,insiderHolders,cashflowStatementHistory,cashflowStatementHistoryQuarterly,insiderTransactions,secFilings,indexTrend,earningsTrend,netSharePurchaseActivity,upgradeDowngradeHistory,institutionOwnership,recommendationTrend,balanceSheetHistory,balanceSheetHistoryQuarterly,fundOwnership,majorDirectHolders,majorHoldersBreakdown,,price,,quoteType,,esgScores',
 
@@ -372,3 +463,6 @@ def get_chart(ticker, range='1y', interval='1d'):
         'volume': try_to_get(data, 'chart', 'result', 0, 'indicators', 'quote', 0, 'volume'),
         'adjusted_close': try_to_get(data, 'chart', 'result', 0, 'indicators', 'adjclose', 0, 'adjclose'),
     }
+
+
+print(get_quote_earnings('aapl'))
