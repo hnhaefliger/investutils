@@ -393,6 +393,45 @@ def get_quote_earnings(ticker):
     if data:
         data = data[0]['earnings']
 
+        return {
+            'earnings_chart': {
+                'quarterly': [{
+                        'date': try_to_get(quarter, 'date'),
+                        'actual': try_to_get(quarter, 'actual', 'raw'),
+                        'estimate': try_to_get(quarter, 'estimate', 'raw'),
+                    } for quarter in data['earningsChart']['quarterly']],
+                'current_quarter_estimate': try_to_get(data, 'earningsChart', 'currentQuarterEstimate', 'raw'),
+                'current_quarter_estimate_date': try_to_get(data, 'earningsChart', 'currentQuarterEstimateDate'),
+                'current_quarter_estimate_year': try_to_get(data, 'earningsChart', 'currentQuarterEstimateYear'),
+                'earnings_date_earliest': try_to_get(data, 'earningsChart', 'earningsDate', 0, 'raw'),
+                'earnings_date_latest': try_to_get(data, 'earningsChart', 'earningsDate', 1, 'raw'),
+            },
+            'financials_chart': {
+                'yearly': [{
+                    'date': try_to_get(year, 'date'),
+                    'revenue': try_to_get(year, 'revenue', 'raw'),
+                    'earnings': try_to_get(year, 'earnings', 'raw'),
+                } for year in data['financialsChart']['yearly']],
+                'quarterly': [{
+                    'date': try_to_get(year, 'date'),
+                    'revenue': try_to_get(year, 'revenue', 'raw'),
+                    'earnings': try_to_get(year, 'earnings', 'raw'),
+                } for year in data['financialsChart']['quarterly']],
+            },
+            'financial_currency': try_to_get(data, 'financialCurrency')
+        }
+
+    else:
+        return None
+
+
+def get_quote_earnings_history(ticker):
+    data = get(
+        f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=earningsHistory')['quoteSummary']['result']
+
+    if data:
+        data = data[0]['earningsHistory']
+
         print(json.dumps(data, indent='\t'))
 
         return {
@@ -402,7 +441,82 @@ def get_quote_earnings(ticker):
         return None
 
 
-#,,,,,,,earningsHistory,insiderHolders,cashflowStatementHistory,cashflowStatementHistoryQuarterly,insiderTransactions,secFilings,indexTrend,earningsTrend,netSharePurchaseActivity,upgradeDowngradeHistory,institutionOwnership,recommendationTrend,balanceSheetHistory,balanceSheetHistoryQuarterly,fundOwnership,majorDirectHolders,majorHoldersBreakdown,,price,,quoteType,,esgScores',
+def get_quote_insider_holders(ticker):
+    data = get(
+        f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=insiderHolders')['quoteSummary']['result']
+
+    if data:
+        data = data[0]['insiderHolders']
+
+        print(json.dumps(data, indent='\t'))
+
+        return {
+        }
+
+    else:
+        return None
+
+
+def get_quote_esg_scores(ticker):
+    data = get(
+        f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=esgScores')['quoteSummary']['result']
+
+    if data:
+        data = data[0]['esgScores']
+
+        return {
+            'total_esg': try_to_get(data, 'totalEsg', 'raw'),
+            'environment_score': try_to_get(data, 'environmentScore', 'raw'),
+            'social_score': try_to_get(data, 'socialScore', 'raw'),
+            'governance_score': try_to_get(data, 'governanceScore', 'raw'),
+            'rating_year': try_to_get(data, 'ratingYear'),
+            'rating_month': try_to_get(data, 'ratingMonth'),
+            'highest_controversy': try_to_get(data, 'highestControversy'),
+            'peer_count': try_to_get(data, 'peerCount'),
+            'esg_performance': try_to_get(data, 'esgPerformance'),
+            'peer_group': try_to_get(data, 'peerGroup'),
+            'related_controversy': try_to_get(data, 'relatedControversy'),
+            'peer_total_esg_max': try_to_get(data, 'peerEsgScorePerformance', 'max'),
+            'peer_total_esg_min': try_to_get(data, 'peerEsgScorePerformance', 'min'),
+            'peer_total_esg_avg': try_to_get(data, 'peerEsgScorePerformance', 'avg'),
+            'peer_governance_max': try_to_get(data, 'peerGovernancePerformance', 'max'),
+            'peer_governance_min': try_to_get(data, 'peerGovernancePerformance', 'min'),
+            'peer_governance_avg': try_to_get(data, 'peerGovernancePerformance', 'avg'),
+            'peer_social_max': try_to_get(data, 'peerSocialPerformance', 'max'),
+            'peer_social_min': try_to_get(data, 'peerSocialPerformance', 'min'),
+            'peer_social_avg': try_to_get(data, 'peerSocialPerformance', 'avg'),
+            'peer_environment_max': try_to_get(data, 'peerEnvironmentPerformance', 'max'),
+            'peer_environment_min': try_to_get(data, 'peerEnvironmentPerformance', 'min'),
+            'peer_environment_avg': try_to_get(data, 'peerEnvironmentPerformance', 'avg'),
+            'peer_controversy_max': try_to_get(data, 'peerHighestControversyPerformance', 'max'),
+            'peer_controversy_min': try_to_get(data, 'peerHighestControversyPerformance', 'min'),
+            'peer_controversy_avg': try_to_get(data, 'peerHighestControversyPerformance', 'avg'),
+            'percentile': try_to_get(data, 'percentile', 'raw'),
+            'environment_percentile': try_to_get(data, 'environmentPercentile', 'raw'),
+            'social_percentile': try_to_get(data, 'socialPercentile', 'raw'),
+            'governance_percentile': try_to_get(data, 'governancePercentile', 'raw'),
+            'adult': try_to_get(data, 'adult'),
+            'alcoholic': try_to_get(data, 'alcoholic'),
+            'animal_testing': try_to_get(data, 'animalTesting'),
+            'catholic': try_to_get(data, 'catholic'),
+            'controversial_weapons': try_to_get(data, 'controversialWeapons'),
+            'smallArms': try_to_get(data, 'smallArms'),
+            'fur_leather': try_to_get(data, 'furLeather'),
+            'gambling': try_to_get(data, 'gambling'),
+            'gmo': try_to_get(data, 'gmo'),
+            'military_contract': try_to_get(data, 'militaryContract'),
+            'nuclear': try_to_get(data, 'nuclear'),
+            'pesticides': try_to_get(data, 'pesticides'),
+            'palm_oil': try_to_get(data, 'palmOil'),
+            'coal': try_to_get(data, 'coal'),
+            'tobacco': try_to_get(data, 'tobacco'),
+        }
+
+    else:
+        return None
+
+
+#cashflowStatementHistory,cashflowStatementHistoryQuarterly,insiderTransactions,secFilings,indexTrend,earningsTrend,netSharePurchaseActivity,upgradeDowngradeHistory,institutionOwnership,recommendationTrend,balanceSheetHistory,balanceSheetHistoryQuarterly,fundOwnership,majorDirectHolders,majorHoldersBreakdown,price,quoteType,',
 
 
 def get_insights(ticker):
@@ -465,4 +579,4 @@ def get_chart(ticker, range='1y', interval='1d'):
     }
 
 
-print(get_quote_earnings('aapl'))
+print(get_quote_esg_scores('aapl'))
