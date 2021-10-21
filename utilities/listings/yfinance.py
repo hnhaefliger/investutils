@@ -456,6 +456,61 @@ def get_quote_insider_holders(ticker):
     else:
         return None
 
+'''
+def get_quote_price(ticker):
+    data = get(
+        f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=price')['quoteSummary']['result']
+
+    if data:
+        data = data[0]['price']
+
+        print(json.dumps(data, indent='\t'))
+
+        return {
+            'pre_market_change_percent':
+            'pre_market_change':
+            'pre_market_time':
+            'pre_market_price':
+            'post_market_change':
+            'post_market_price':
+            'regular_market_change_percent':
+            'regular_market_change':
+            'regular_market_time':
+            'price_hint':
+            'regular_market_price':
+            'regular_market_day_high':
+            'regular_market_day_low':
+            'regular_market_volume':
+            'average_10_day_volume':
+            'average_3_month_volume':
+            'regular_market_open':
+            'regular_market_previous_close':
+            ''
+        }
+
+    else:
+        return None
+'''
+
+def get_quote_type(ticker):
+    data = get(f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=quoteType')['quoteSummary']['result']
+
+    if data:
+        data = data[0]['quoteType']
+
+        return {
+            'exchange': try_to_get(data, 'exchange'),
+            'type': try_to_get(data, 'quoteType'),
+            'symbol': try_to_get(data, 'symbol'),
+            'short_name': try_to_get(data, 'shortName'),
+            'long_name': try_to_get(data, 'longName'),
+            'first_trade_date': try_to_get(data, 'firstTradeDateEpochUtc'),
+            'time_zone': try_to_get(data, 'timeZoneShortName'),
+        }
+
+    else:
+        return None
+
 
 def get_quote_esg_scores(ticker):
     data = get(
@@ -516,7 +571,7 @@ def get_quote_esg_scores(ticker):
         return None
 
 
-#cashflowStatementHistory,cashflowStatementHistoryQuarterly,insiderTransactions,secFilings,indexTrend,earningsTrend,netSharePurchaseActivity,upgradeDowngradeHistory,institutionOwnership,recommendationTrend,balanceSheetHistory,balanceSheetHistoryQuarterly,fundOwnership,majorDirectHolders,majorHoldersBreakdown,price,quoteType,',
+#cashflowStatementHistory,cashflowStatementHistoryQuarterly,insiderTransactions,secFilings,indexTrend,earningsTrend,netSharePurchaseActivity,upgradeDowngradeHistory,institutionOwnership,recommendationTrend,balanceSheetHistory,balanceSheetHistoryQuarterly,fundOwnership,majorDirectHolders,majorHoldersBreakdown
 
 
 def get_insights(ticker):
@@ -579,4 +634,4 @@ def get_chart(ticker, range='1y', interval='1d'):
     }
 
 
-print(get_quote_esg_scores('aapl'))
+print(get_quote_price('aapl'))

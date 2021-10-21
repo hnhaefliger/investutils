@@ -181,6 +181,84 @@ class KeyStatisticsViewSet(viewsets.ViewSet):
             return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
+class CalendarEventsViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            Ticker.objects.get(ticker=kwargs['ticker'].upper())
+            return Response(data=yfinance.get_quote_calendar_events(kwargs['ticker']), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class IncomeStatementQuarterlyViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            Ticker.objects.get(ticker=kwargs['ticker'].upper())
+            return Response(data=yfinance.get_quote_income_statement_quarterly(kwargs['ticker']), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class CashflowStatementViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            Ticker.objects.get(ticker=kwargs['ticker'].upper())
+            return Response(data=yfinance.get_quote_cashflow_statement(kwargs['ticker']), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class BalancesheetStatementViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            Ticker.objects.get(ticker=kwargs['ticker'].upper())
+            return Response(data=yfinance.get_quote_balancesheet_history(kwargs['ticker']), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class EarningsViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            Ticker.objects.get(ticker=kwargs['ticker'].upper())
+            return Response(data=yfinance.get_quote_earnings(kwargs['ticker']), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class ESGViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            Ticker.objects.get(ticker=kwargs['ticker'].upper())
+            return Response(data=yfinance.get_quote_esg_scores(kwargs['ticker']), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
 class InsightsViewSet(viewsets.ViewSet):
     permission_classes = (AllowAny,)
     lookup_url_kwarg = 'ticker'
