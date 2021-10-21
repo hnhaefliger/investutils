@@ -634,4 +634,4 @@ def get_chart(ticker, range='1y', interval='1d'):
     }
 
 
-print(get_quote_price('aapl'))
+#print(get_quote_price('aapl'))
