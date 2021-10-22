@@ -15,6 +15,8 @@ router.register('cashflow', CashflowStatementViewSet, basename='cashflow')
 router.register('balancesheet', BalancesheetStatementViewSet, basename='balancesheet')
 router.register('earnings', EarningsViewSet, basename='earnings')
 router.register('esg', ESGViewSet, basename='esg')
+router.register('price', PriceViewSet, basename='price')
+router.register('type', TypeViewSet, basename='type')
 router.register('insights', InsightsViewSet, basename='insights')
 
 urlpatterns = router.urls

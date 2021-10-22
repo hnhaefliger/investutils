@@ -456,7 +456,7 @@ def get_quote_insider_holders(ticker):
     else:
         return None
 
-'''
+
 def get_quote_price(ticker):
     data = get(
         f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=price')['quoteSummary']['result']
@@ -464,33 +464,41 @@ def get_quote_price(ticker):
     if data:
         data = data[0]['price']
 
-        print(json.dumps(data, indent='\t'))
-
         return {
-            'pre_market_change_percent':
-            'pre_market_change':
-            'pre_market_time':
-            'pre_market_price':
-            'post_market_change':
-            'post_market_price':
-            'regular_market_change_percent':
-            'regular_market_change':
-            'regular_market_time':
-            'price_hint':
-            'regular_market_price':
-            'regular_market_day_high':
-            'regular_market_day_low':
-            'regular_market_volume':
-            'average_10_day_volume':
-            'average_3_month_volume':
-            'regular_market_open':
-            'regular_market_previous_close':
-            ''
+            'pre_market_change_percent': try_to_get(data, 'preMarketChangePercent', 'raw'),
+            'pre_market_change': try_to_get(data, 'preMarketChange', 'raw'),
+            'pre_market_time': try_to_get(data, 'preMarketTime'),
+            'pre_market_price': try_to_get(data, 'preMarketPrice', 'raw'),
+            'post_market_change_percent': try_to_get(data, 'postMarketChangePercent', 'raw'),
+            'post_market_change': try_to_get(data, 'postMarketChange', 'raw'),
+            'post_market_time': try_to_get(data, 'postMarketTime'),
+            'post_market_price': try_to_get(data, 'postMarketPrice', 'raw'),
+            'regular_market_change_percent': try_to_get(data, 'regularMarketChangePercent', 'raw'),
+            'regular_market_change': try_to_get(data, 'regularMarketChange', 'raw'),
+            'regular_market_time': try_to_get(data, 'regularMarketTime'),
+            'price_hint': try_to_get(data, 'priceHint', 'raw'),
+            'regular_market_price': try_to_get(data, 'regularMarketPrice', 'raw'),
+            'regular_market_day_high': try_to_get(data, 'regularMarketDayHigh', 'raw'),
+            'regular_market_day_low': try_to_get(data, 'regularMarketDayLow', 'raw'),
+            'regular_market_volume': try_to_get(data, 'regularMarketVolume', 'raw'),
+            'average_10_day_volume': try_to_get(data, 'averageDailyVolume10Day', 'raw'),
+            'average_3_month_volume': try_to_get(data, 'averageDailyVolume3Month', 'raw'),
+            'regular_market_open': try_to_get(data, 'regularMarketOpen', 'raw'),
+            'regular_market_previous_close': try_to_get(data, 'regularMarketPreviousClose', 'raw'),
+            'strike_price': try_to_get(data, 'strikePrice', 'raw'),
+            'open_interest': try_to_get(data, 'openInterest', 'raw'),
+            'exchange_name': try_to_get(data, 'exchangeName'),
+            'market_state': try_to_get(data, 'marketState'),
+            'type': try_to_get(data, 'quoteType'),
+            'symbol': try_to_get(data, 'symbol'),
+            'name': try_to_get(data, 'longName'),
+            'currency': try_to_get(data, 'currency'),
+            'market_cap': try_to_get(data, 'marketCap', 'raw'),
         }
 
     else:
         return None
-'''
+
 
 def get_quote_type(ticker):
     data = get(f'https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}?modules=quoteType')['quoteSummary']['result']
@@ -633,5 +641,3 @@ def get_chart(ticker, range='1y', interval='1d'):
         'adjusted_close': try_to_get(data, 'chart', 'result', 0, 'indicators', 'adjclose', 0, 'adjclose'),
     }
 
-
-#print(get_quote_price('aapl'))

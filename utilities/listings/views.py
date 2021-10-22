@@ -259,6 +259,32 @@ class ESGViewSet(viewsets.ViewSet):
             return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
+class PriceViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            Ticker.objects.get(ticker=kwargs['ticker'].upper())
+            return Response(data=yfinance.get_quote_price(kwargs['ticker']), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class TypeViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'ticker'
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            Ticker.objects.get(ticker=kwargs['ticker'].upper())
+            return Response(data=yfinance.get_quote_type(kwargs['ticker']), status=status.HTTP_200_OK)
+
+        except:
+            return Response(data={'error': 'ticker not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
 class InsightsViewSet(viewsets.ViewSet):
     permission_classes = (AllowAny,)
     lookup_url_kwarg = 'ticker'
